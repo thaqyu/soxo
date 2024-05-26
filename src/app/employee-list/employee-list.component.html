@@ -1,0 +1,139 @@
+
+<div class="container" style="margin-top: 70px;">
+<button type="button" class="btn btn-primary"  (click)="addNewSearch()">Search</button>
+
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th>id</th>
+        <th>Name</th>
+        <th>Gender</th>
+        <th>Dob</th>
+        <th>Salary</th>
+        <th>Address</th>
+        <th>Department</th>
+        <th>Status</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let employee of employees">
+
+        <td>{{employee.id}}</td>
+        <td> {{ employee.name }}</td>
+        <td> {{ employee.gender }}</td>
+        <td>{{employee.dob | date:'dd-MM-yyyy'}}</td>
+        <td> {{ employee.salary }}</td>
+        <td> {{ employee.address }}</td>
+        <td> {{ employee.department }}</td>
+        <td> {{ employee.status }}</td>
+
+                  <td><i class="btn btn-primary" name="dltbtn" id="dltbtn" title="delete" (click)="deleteClick(employee)"   >Delete</i> | <i class="btn btn-primary" name="editbtn" id="editbtn"  data-bs-toggle="modal" data-bs-target="#myModal"  (click)="editClick(employee)"  >Edit</i> </td>
+      </tr>
+    </tbody>
+  </table>
+
+  </div>
+  <button type="button" class="btn btn-primary"  (click)="addNewClick()">Add New Employee</button>
+  <ng-template #dialog_required let-modal id="dialog_required" >    
+<div class="modal fade show" id="myModal" tabindex="-1" role="dialog" style="display: block;" data-keyboard="false" data-backdrop="static">
+<div class="modal-dialog">
+  <div class="modal-content">
+    <div class="modal-header">
+      <button type="button" class="close" aria-label="Close" (click)="closemodal()">
+        <span aria-hidden="true">×</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="row">                            
+        <div class="col-lg-12" style="padding:0px 60px 0px 60px;">
+          <div class="mb-3">
+            <label for="kyclastname-input" class="form-label">Name<span class="red" style="color:red;">* </span> </label>   
+              <input class="form-control" id="Name" type="text"     [(ngModel)]="employee.Name" name="Name"   placeholder="Enter Name" > 
+              <p class="red" style="color:red;">{{NameError}}</p>   
+          </div>
+        </div>
+      </div>   
+
+      <div class="row">              
+        <div class="col-lg-12" style="padding:0px 60px 0px 60px;">
+          <div class="mb-3">
+            <label for="kyclastname-input" class="form-label">Gender<span class="red" style="color:red;">* </span> </label>                                        
+              <select class="form-control" id="GenderId" name="GenderId"  [(ngModel)]="employee.Gender" >
+                <option *ngFor="let gender of genders" value="{{gender.name}}"  >{{gender.name}}</option>
+              </select> 
+          </div>
+        </div>
+      </div>   
+      <div class="row">                            
+        <div class="col-lg-12" style="padding:0px 60px 0px 60px;">
+          <div class="mb-3">
+            <label for="kyclastname-input" class="form-label">DOB</label>
+              <!-- <input class="form-control" id="dob" type="date"    [(ngModel)]="employee.DOB" name="DOB" max="{{maxDob| date: 'full'}}" placeholder="Enter dob" >   -->
+              <input class="form-control" id="dob" type="date"    [(ngModel)]="employee.DOB" name="DOB" max="{{maxDate}}" placeholder="Enter dob" >  
+              <!-- <input class="form-control" id="dob" type="date"    [(ngModel)]="employee.DOB" name="DOB" max="{{maxDate}}" placeholder="Enter dob" >   -->
+          </div>
+        </div>
+      </div>  
+      <div class="row">                            
+        <div class="col-lg-12" style="padding:0px 60px 0px 60px;">
+          <div class="mb-3">
+            <label for="kyclastname-input" class="form-label">Salary</label>
+              <input class="form-control" id="salary" type="number"    [(ngModel)]="employee.Salary" name="Salary"   placeholder="Enter salary" >  
+          </div>
+        </div>
+      </div>  
+      <div class="row">              
+        <div class="col-lg-12" style="padding:0px 60px 0px 60px;">
+          <div class="mb-3">
+            <label for="kyclastname-input" class="form-label">Department<span class="red" style="color:red;">* </span> </label>                                        
+              <select class="form-control" id="DepartmentId" name="DepartmentId"  [(ngModel)]="employee.DepartmentID" >
+                <option *ngFor="let department of departments" value="{{department.id}}"  >{{department.name}}</option>
+              </select> 
+              <p class="red" style="color:red;">{{DepartmentError}}</p>  
+          </div>
+        </div>
+      </div> 
+      <div class="row">              
+        <div class="col-lg-12" style="padding:0px 60px 0px 60px;">
+          <div class="mb-3">
+            <label for="kyclastname-input" class="form-label">Address<span class="red" style="color:red;">* </span> </label>                                        
+              <select class="form-control" id="AddressId" name="AddressId"  [(ngModel)]="employee.AddressID" >
+                <option *ngFor="let address of Addresses" value="{{address.id}}"  >{{address.address1}}</option>
+              </select> 
+              <p class="red" style="color:red;">{{AddressError}}</p>  
+          </div>
+        </div>
+      </div> 
+      <div class="row">                            
+        <div class="col-lg-12" style="padding:0px 60px 0px 60px;">
+          <div class="mb-3">
+            <label for="inputdefault"> Status
+              <input type="checkbox"  id="Status" [checked]="employee.status"  name="Status" [(ngModel)]="employee.status" > 
+            </label>
+          </div>
+        </div>
+      </div> 
+
+
+    </div>
+    <div class="modal-footer">
+
+      <button class="btn btn-primary"  name="btncreate" title="aa" type="button" (click)="createClick()"  *ngIf="employee.ID==0">Submit</button>
+      <button class="btn btn-primary"  type="button" (click)="updateClick()" *ngIf="employee.ID!=0" >Update</button>
+      <button class="btn btn-warning" type="button" (click)="FieldClear()">Clear</button>
+      <button type="button" class="btn btn-danger" (click)="closemodal()"  >Close</button>
+    </div>
+  </div>
+</div>
+</div>
+</ng-template>
+
+
+
+<ng-template #dialog_required1 let-modal id="dialog_required1" > 
+  
+  <app-search [searchtable]="searchtable" (passedEvent)="searchEvent($event)"></app-search>
+  <button type="button" class="btn btn-danger" (click)="closemodal()"  >Close</button>
+
+  </ng-template>
